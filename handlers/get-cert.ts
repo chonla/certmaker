@@ -3,7 +3,7 @@ import { PDFDocument, PageSizes } from 'https://cdn.skypack.dev/pdf-lib@^1.11.1?
 import { FontDiscovery } from "../services/google-fonts/discovery.ts";
 import fontkit from 'npm:@pdf-lib/fontkit';
 
-export function getCert(ctx: Context) {
+export async function getCert(ctx: Context) {
     const fontDiscovery = new FontDiscovery();
     const fontData = await fontDiscovery.discover('Noto Sans Thai Looped');
     
