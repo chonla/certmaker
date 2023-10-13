@@ -1,10 +1,8 @@
-import { Router, Context } from 'https://deno.land/x/oak/mod.ts';
+import { Router } from 'https://deno.land/x/oak/mod.ts';
+import { getCert } from "./handlers/get-cert.ts";
 
 const router: Router = new Router();
 
-router
-    .get('/', (ctx: Context) => {
-        ctx.response.body = 'get root';
-    });
+router.get('/', getCert);
 
 export default router;
