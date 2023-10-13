@@ -8,11 +8,12 @@ export async function getCert(ctx: Context) {
     // PDF pixel density is 72 pixel-per-inch.
     // A4 paper height in landscape mode is 8.27 inch
     // convert desired font size to pixel use size * 72;
-    const fallbackFontSize = 0.7 * PIXEL_PER_INCH;
+    const fallbackFontSize = 0.5 * PIXEL_PER_INCH;
+    const fallbackTemplate = 'empty-cert';
 
-    const recipient = ctx.request.url.searchParams.get('recipient');
+    const recipient = ctx.request.url.searchParams.get('recipient') || `Recipient's Name`;
     const font = ctx.request.url.searchParams.get('font');
-    const certTemplate = ctx.request.url.searchParams.get('template');
+    const certTemplate = ctx.request.url.searchParams.get('template') || fallbackTemplate;
     const fontSizeQuery = ctx.request.url.searchParams.get('fontsize') || `${fallbackFontSize}`;
     const positionX = ctx.request.url.searchParams.get('x');
     const positionY = ctx.request.url.searchParams.get('y');
@@ -40,23 +41,32 @@ export async function getCert(ctx: Context) {
         height: backgroundDimensions.height
     });
 
+    // estimate where to put recipient's name
     let x;
+    let y;
     if (positionX === null) {
         // x is omitted, put it center
-        x = (page.getWidth() - baseFont.widthOfTextAtSize(recipient, fontSize)) / 2;
+        const textWidth = baseFont.widthOfTextAtSize(recipient, fontSize);
+        x = Math.round((page.getWidth() - textWidth) / 2);
     } else {
         x = Number.parseInt(positionX, 10);
     }
-    page.drawText('Creating PDFs in Deno is awesome!', {
+    if (positionY === null) {
+        // y is omitted, put it center
+        const textHeight = baseFont.heightAtSize(fontSize);
+        y = Math.round((page.getHeight() - textHeight) / 2);
+    } else {
+        y = Number.parseInt(positionY, 10);
+    }
+    page.drawText(recipient, {
         x: x,
-        y: 300,
+        y: y,
         size: fontSize,
         font: baseFont
     });
 
-    // Save the PDFDocument and write it to a file
+    // Save the PDFDocument and write it to response
     const pdfBytes = await certDoc.save();
-
     ctx.response.headers.set('Content-type', 'application-pdf');
     ctx.response.headers.set('Content-disposition', 'attachment; filename=certificate.pdf');
     ctx.response.body = pdfBytes;
