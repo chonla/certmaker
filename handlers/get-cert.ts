@@ -36,6 +36,6 @@ export function getCert(ctx: Context) {
     const pdfBytes = await certDoc.save();
     
     ctx.response.headers.set('Content-type', 'application-pdf');
-    ctx.response.headers.set('Content-disposition': 'attachment; filename=certificate.pdf');
+    ctx.response.headers.set('Content-disposition', 'attachment; filename=certificate.pdf');
     ctx.response.body = pdfBytes;
 }
