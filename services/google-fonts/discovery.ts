@@ -1,9 +1,22 @@
 export class FontDiscovery {
-    constructor() {
+    private _fallbackFontName: string;
 
+    constructor(fallbackFontName: string) {
+        this._fallbackFontName = fallbackFontName;
     }
 
     async discover(fontName: string): Promise<ArrayBuffer> {
+        try {
+            const result = await this._discover(fontName);
+            return result;
+        } catch (_) {
+            console.error(`Specified font is missing [${fontName}], use fallback font [${this._fallbackFontName}]`);
+            const result = await this._discover(this._fallbackFontName);
+            return result;
+        }
+    }
+
+    private async _discover(fontName: string): Promise<ArrayBuffer> {
         const escapedFontName = fontName.replaceAll(' ', '+');
         const fontCSSURL = `https://fonts.googleapis.com/css2?family=${escapedFontName}:wght@400&display=swap`;
         const fontCSS = await fetch(fontCSSURL);
