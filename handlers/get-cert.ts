@@ -21,7 +21,6 @@ export async function getCert(ctx: Context) {
     const fontDiscovery = new FontDiscovery(FALLBACK_FONT);
     const fontData = await fontDiscovery.discover(font || FALLBACK_FONT);
     const fontSize = Number.parseFloat(fontSizeQuery) * PIXEL_PER_INCH;
-    console.log(fontSize);
 
     // Create a new PDFDocument
     const certDoc = await PDFDocument.create();
