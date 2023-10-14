@@ -8,7 +8,7 @@ export async function getCert(ctx: Context) {
     // PDF pixel density is 72 pixel-per-inch.
     // A4 paper height in landscape mode is 8.27 inch
     // convert desired font size to pixel use size * 72;
-    const fallbackFontSize = 0.5 * PIXEL_PER_INCH;
+    const fallbackFontSize = 0.5;
     const fallbackTemplate = 'empty-cert';
 
     const recipient = ctx.request.url.searchParams.get('recipient') || `Recipient's Name`;
@@ -20,7 +20,7 @@ export async function getCert(ctx: Context) {
 
     const fontDiscovery = new FontDiscovery(FALLBACK_FONT);
     const fontData = await fontDiscovery.discover(font || FALLBACK_FONT);
-    const fontSize = Number.parseInt(fontSizeQuery, 10);
+    const fontSize = Number.parseInt(fontSizeQuery, 10) * PIXEL_PER_INCH;
 
     // Create a new PDFDocument
     const certDoc = await PDFDocument.create();
@@ -42,6 +42,7 @@ export async function getCert(ctx: Context) {
     });
 
     // estimate where to put recipient's name
+    page.moveTo(0, 0);
     let x;
     let y;
     if (positionX === null) {
