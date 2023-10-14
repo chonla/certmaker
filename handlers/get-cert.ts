@@ -15,8 +15,8 @@ export async function getCert(ctx: Context) {
     const font = ctx.request.url.searchParams.get('font');
     const certTemplate = ctx.request.url.searchParams.get('template') || fallbackTemplate;
     const fontSizeQuery = ctx.request.url.searchParams.get('fontsize') || `${fallbackFontSize}`;
-    const positionX = ctx.request.url.searchParams.get('x');
-    const positionY = ctx.request.url.searchParams.get('y');
+    const positionX = ctx.request.url.searchParams.get('x'); // in inch
+    const positionY = ctx.request.url.searchParams.get('y'); // in inch
 
     const fontDiscovery = new FontDiscovery(FALLBACK_FONT);
     const fontData = await fontDiscovery.discover(font || FALLBACK_FONT);
@@ -49,14 +49,14 @@ export async function getCert(ctx: Context) {
         const textWidth = baseFont.widthOfTextAtSize(recipient, fontSize);
         x = Math.round((page.getWidth() - textWidth) / 2);
     } else {
-        x = Number.parseInt(positionX, 10);
+        x = Number.parseInt(positionX, 10) * PIXEL_PER_INCH;
     }
     if (positionY === null) {
         // y is omitted, put it center
         const textHeight = baseFont.heightAtSize(fontSize);
         y = Math.round((page.getHeight() - textHeight) / 2);
     } else {
-        y = Number.parseInt(positionY, 10);
+        y = Number.parseInt(positionY, 10) * PIXEL_PER_INCH;
     }
     page.drawText(recipient, {
         x: x,
