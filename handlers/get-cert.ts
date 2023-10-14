@@ -20,7 +20,8 @@ export async function getCert(ctx: Context) {
 
     const fontDiscovery = new FontDiscovery(FALLBACK_FONT);
     const fontData = await fontDiscovery.discover(font || FALLBACK_FONT);
-    const fontSize = Number.parseInt(fontSizeQuery, 10) * PIXEL_PER_INCH;
+    const fontSize = Number.parseFloat(fontSizeQuery) * PIXEL_PER_INCH;
+    console.log(fontSize);
 
     // Create a new PDFDocument
     const certDoc = await PDFDocument.create();
@@ -50,14 +51,14 @@ export async function getCert(ctx: Context) {
         const textWidth = baseFont.widthOfTextAtSize(recipient, fontSize);
         x = Math.round((page.getWidth() - textWidth) / 2);
     } else {
-        x = Number.parseInt(positionX, 10) * PIXEL_PER_INCH;
+        x = Number.parseFloat(positionX) * PIXEL_PER_INCH;
     }
     if (positionY === null) {
         // y is omitted, put it center
         const textHeight = baseFont.heightAtSize(fontSize);
         y = Math.round((page.getHeight() - textHeight) / 2);
     } else {
-        y = Number.parseInt(positionY, 10) * PIXEL_PER_INCH;
+        y = Number.parseFloat(positionY) * PIXEL_PER_INCH;
     }
     page.drawText(recipient, {
         x: x,
