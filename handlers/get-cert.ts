@@ -10,6 +10,8 @@ export async function getCert(ctx: Context) {
     // convert desired font size to pixel use size * 72;
     const fallbackFontSize = 0.5;
     const fallbackTemplate = 'empty-cert';
+    const fallbackMarginLeft = 0;
+    const fallbackScale = 1;
 
     const recipient = ctx.request.url.searchParams.get('recipient') || `Recipient's Name`;
     const font = ctx.request.url.searchParams.get('font');
@@ -17,10 +19,14 @@ export async function getCert(ctx: Context) {
     const fontSizeQuery = ctx.request.url.searchParams.get('fontsize') || `${fallbackFontSize}`;
     const positionX = ctx.request.url.searchParams.get('x'); // in inch
     const positionY = ctx.request.url.searchParams.get('y'); // in inch
+    const marginLeftQuery = ctx.request.url.searchParams.get('marginleft') || `${fallbackMarginLeft}`; // in inch
+    const scaleQuery = ctx.request.url.searchParams.get('scale') || `${fallbackScale}`;
 
     const fontDiscovery = new FontDiscovery(FALLBACK_FONT);
     const fontData = await fontDiscovery.discover(font || FALLBACK_FONT);
     const fontSize = Number.parseFloat(fontSizeQuery) * PIXEL_PER_INCH;
+    const marginleft = Number.parseFloat(marginLeftQuery) * PIXEL_PER_INCH;
+    const scale = Number.parseFloat(scaleQuery);
 
     // Create a new PDFDocument
     const certDoc = await PDFDocument.create();
@@ -30,7 +36,7 @@ export async function getCert(ctx: Context) {
     // Add a page to the PDFDocument and draw some text
     const backgroundDataBytes = await Deno.readFileSync(`${certTemplate}.png`);
     const backgroundImage = await certDoc.embedPng(backgroundDataBytes);
-    const backgroundDimensions = backgroundImage.scale(1);
+    const backgroundDimensions = backgroundImage.scale(scale);
 
     const page = certDoc.addPage([PageSizes.A4[1], PageSizes.A4[0]]);
 
@@ -48,9 +54,9 @@ export async function getCert(ctx: Context) {
     if (positionX === null) {
         // x is omitted, put it center
         const textWidth = baseFont.widthOfTextAtSize(recipient, fontSize);
-        x = Math.round((page.getWidth() - textWidth) / 2);
+        x = Math.round((page.getWidth() - textWidth - marginleft) / 2);
     } else {
-        x = Number.parseFloat(positionX) * PIXEL_PER_INCH;
+        x = (Number.parseFloat(positionX) * PIXEL_PER_INCH);
     }
     if (positionY === null) {
         // y is omitted, put it center
@@ -60,7 +66,7 @@ export async function getCert(ctx: Context) {
         y = Number.parseFloat(positionY) * PIXEL_PER_INCH;
     }
     page.drawText(recipient, {
-        x: x,
+        x: x + marginleft,
         y: y,
         size: fontSize,
         font: baseFont

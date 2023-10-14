@@ -20,5 +20,5 @@ Make a call to `https://certmaker.deno.dev` with custom parameters.
 ## Example
 
 ```
-http://localhost/?recipient=Chonlasith+Jucksriporn&y=4.8&fontsize=0.8
+http://certmaker.deno.dev/?recipient=Chonlasith+Jucksriporn&y=4.25&fontsize=0.5&marginleft=3.78&template=playwright-hands-on-cert&scale=0.24
 ```
