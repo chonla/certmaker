@@ -3,6 +3,7 @@ import { PDFDocument, PageSizes } from 'https://cdn.skypack.dev/pdf-lib@^1.11.1?
 import { FontDiscovery } from "../services/google-fonts/discovery.ts";
 import fontkit from 'npm:@pdf-lib/fontkit';
 import { FALLBACK_FONT, PIXEL_PER_INCH } from "../constants/config.ts";
+import { Color } from "../services/color/color.ts";
 
 export async function getCert(ctx: Context) {
     // PDF pixel density is 72 pixel-per-inch.
@@ -12,11 +13,13 @@ export async function getCert(ctx: Context) {
     const fallbackTemplate = 'empty-cert';
     const fallbackMarginLeft = 0;
     const fallbackScale = 1;
+    const fallbackFontColor = '000000';
 
     const recipient = ctx.request.url.searchParams.get('recipient') || `Recipient's Name`;
     const font = ctx.request.url.searchParams.get('font');
     const certTemplate = ctx.request.url.searchParams.get('template') || fallbackTemplate;
     const fontSizeQuery = ctx.request.url.searchParams.get('fontsize') || `${fallbackFontSize}`;
+    const fontColorQuery = ctx.request.url.searchParams.get('fontcolor') || fallbackFontColor;
     const positionX = ctx.request.url.searchParams.get('x'); // in inch
     const positionY = ctx.request.url.searchParams.get('y'); // in inch
     const marginLeftQuery = ctx.request.url.searchParams.get('marginleft') || `${fallbackMarginLeft}`; // in inch
@@ -25,6 +28,7 @@ export async function getCert(ctx: Context) {
     const fontDiscovery = new FontDiscovery(FALLBACK_FONT);
     const fontData = await fontDiscovery.discover(font || FALLBACK_FONT);
     const fontSize = Number.parseFloat(fontSizeQuery) * PIXEL_PER_INCH;
+    const fontColor = (new Color()).parseRGB(fontColorQuery);
     const marginleft = Number.parseFloat(marginLeftQuery) * PIXEL_PER_INCH;
     const scale = Number.parseFloat(scaleQuery);
 
@@ -69,7 +73,8 @@ export async function getCert(ctx: Context) {
         x: x + marginleft,
         y: y,
         size: fontSize,
-        font: baseFont
+        font: baseFont,
+        color: fontColor,
     });
 
     // Save the PDFDocument and write it to response
