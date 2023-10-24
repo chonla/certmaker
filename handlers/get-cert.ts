@@ -4,15 +4,13 @@ import { FontDiscovery } from "../services/google-fonts/discovery.ts";
 import fontkit from 'npm:@pdf-lib/fontkit';
 import { FALLBACK_FONT, PIXEL_PER_INCH } from "../constants/config.ts";
 import { Color } from "../services/color/color.ts";
+import { decode } from "https://deno.land/x/pngs@0.1.1/mod.ts";
 
 export async function getCert(ctx: Context) {
-    // PDF pixel density is 72 pixel-per-inch.
-    // A4 paper height in landscape mode is 8.27 inch
-    // convert desired font size to pixel use size * 72;
+    const paperA4LandscapeWidthInPixel = 842;
     const fallbackFontSize = 0.5;
     const fallbackTemplate = 'empty-cert';
     const fallbackMarginLeft = 0;
-    const fallbackScale = 1;
     const fallbackFontColor = '000000';
 
     const recipient = ctx.request.url.searchParams.get('recipient') || `Recipient's Name`;
@@ -23,14 +21,12 @@ export async function getCert(ctx: Context) {
     const positionX = ctx.request.url.searchParams.get('x'); // in inch
     const positionY = ctx.request.url.searchParams.get('y'); // in inch
     const marginLeftQuery = ctx.request.url.searchParams.get('marginleft') || `${fallbackMarginLeft}`; // in inch
-    const scaleQuery = ctx.request.url.searchParams.get('scale') || `${fallbackScale}`;
 
     const fontDiscovery = new FontDiscovery(FALLBACK_FONT);
     const fontData = await fontDiscovery.discover(font || FALLBACK_FONT);
     const fontSize = Number.parseFloat(fontSizeQuery) * PIXEL_PER_INCH;
     const fontColor = (new Color()).parseRGB(fontColorQuery);
     const marginleft = Number.parseFloat(marginLeftQuery) * PIXEL_PER_INCH;
-    const scale = Number.parseFloat(scaleQuery);
 
     // Create a new PDFDocument
     const certDoc = await PDFDocument.create();
@@ -38,8 +34,11 @@ export async function getCert(ctx: Context) {
     const baseFont = await certDoc.embedFont(fontData);
 
     // Add a page to the PDFDocument and draw some text
-    const backgroundDataBytes = await Deno.readFileSync(`${certTemplate}.png`);
+    const templateFile = `${certTemplate}.png`;
+    const backgroundDataBytes = await Deno.readFileSync(templateFile);
     const backgroundImage = await certDoc.embedPng(backgroundDataBytes);
+    const { width } = decode(backgroundDataBytes);
+    const scale = paperA4LandscapeWidthInPixel / width;
     const backgroundDimensions = backgroundImage.scale(scale);
 
     const page = certDoc.addPage([PageSizes.A4[1], PageSizes.A4[0]]);
