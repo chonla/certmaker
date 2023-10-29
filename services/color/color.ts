@@ -1,4 +1,4 @@
-import { RGB, rgb } from 'https://cdn.skypack.dev/pdf-lib@^1.11.1?dts';
+import { RGB, rgb } from 'https://cdn.skypack.dev/pdf-lib@^1.17.1?dts';
 import { decodeHex } from "https://deno.land/std@0.204.0/encoding/hex.ts";
 
 export class Color {
