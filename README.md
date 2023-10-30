@@ -18,7 +18,11 @@ Make a call to `https://certmaker.deno.dev` with custom parameters.
 | x | Horizontal position of recipient's name **in inch**, measured from left. Center if omitted. |
 | y | Vertical position of recipient's name **in inch**, measured from bottom. Center if omitted. |
 
-## Example
+## Cert Maker Application
+
+https://chonla.github.io/certmaker/
+
+## API Example
 
 ### On Deno Deploy
 
