@@ -17,30 +17,108 @@
             flex-direction: column;
             align-items: center;
         }
+
+        div,
+        input,
+        select {
+            box-sizing: border-box;
+        }
+
         h1 {
             font-family: 'Pacifico', cursive;
             color: #202020;
             font-size: 4em;
             text-align: center;
         }
+
         form {
             width: 80%;
             max-width: 800px;
         }
+
         hr {
             border-style: none;
             margin: 1.5em 0;
         }
+
         label {
             display: block;
         }
+
+        *+label {
+            margin-top: 1em;
+        }
+
         input[type="text"] {
             font-family: 'Montserrat', sans-serif;
-            border: 1px solid #202020;
+            border: 1px solid #404040;
             border-radius: 4px;
             font-size: 2em;
             width: 100%;
             color: #202020;
+            padding: 8px;
+        }
+
+        input[type="color"] {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            border: none;
+            background: none;
+            appearance: none;
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            background: none;
+            cursor: pointer;
+        }
+
+        .color-picker {
+            width: 100%;
+            height: 3em;
+            border-radius: 4px;
+            overflow: hidden;
+            padding: 0;
+            margin: 0;
+        }
+
+        ::-webkit-color-swatch-wrapper {
+            padding: 0;
+        }
+
+        ::-webkit-color-swatch {
+            border: 0;
+            border-radius: 0;
+        }
+
+        select {
+            border: 1px solid #404040;
+            border-radius: 4px;
+            font-size: 1.5em;
+            width: 100%;
+            color: #202020;
+            padding: 8px;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23131313%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.7rem top 50%;
+            background-size: 0.65rem auto;
+        }
+
+        .helper {
+            font-style: italic;
+            color: #606060;
+            font-size: 0.8em;
+        }
+
+        button {
+            border-radius: 4px;
+            font-size: 1.5em;
+            line-height: 2em;
+            border: none;
+            background-color: #6699cc;
+            width: 100%;
+            color: #eaeaea;
             padding: 8px;
         }
     </style>
@@ -63,10 +141,11 @@
         </label>
         <select name="font">
             <option value="Noto Sans Thai Looped">Noto Sans Thai Looped</option>
+            <option value="Montserrat">Montserrat</option>
         </select>
 
         <label for="fontsize">
-            Text Size (inch)
+            Text Size <span class="helper">(inch)</span>
         </label>
         <select name="fontsize">
             <option value="0.3">0.3</option>
@@ -78,9 +157,63 @@
             <option value="0.9">0.9</option>
             <option value="1.0">1.0</option>
         </select>
+        <label for="color">
+            Text Color
+        </label>
+        <div class="color-picker">
+            <input type="color" id="color" name="color">
+        </div>
 
-        <h2>Text Position</h2>
-        <button type="submit">Download</button>
+        <hr>
+
+        <h2>Text Position <span class="helper">Certification is Landscape</span></h2>
+        <label for="marginleft">
+            Margin Left <span class="helper">(inch)</span>
+        </label>
+        <select name="marginleft">
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="1.5">1.5</option>
+            <option value="2">2</option>
+            <option value="2.5">2.5</option>
+            <option value="3">3</option>
+            <option value="3.5">3.5</option>
+            <option value="4">4</option>
+        </select>
+        <label for="x">
+            Left <span class="helper">(inch)</span>
+        </label>
+        <select name="x">
+            <option value="">Auto (Center)</option>
+            <option value="1">1</option>
+            <option value="1.5">1.5</option>
+            <option value="2">2</option>
+            <option value="2.5">2.5</option>
+            <option value="3">3</option>
+            <option value="3.5">3.5</option>
+            <option value="4">4</option>
+            <option value="4.5">4.5</option>
+            <option value="4">4</option>
+            <option value="5.5">5.5</option>
+            <option value="6">6</option>
+        </select>
+        <label for="y">
+            Top <span class="helper">(inch)</span>
+        </label>
+        <select name="y">
+            <option value="">Auto (Center)</option>
+            <option value="1">1</option>
+            <option value="1.5">1.5</option>
+            <option value="2">2</option>
+            <option value="2.5">2.5</option>
+            <option value="3">3</option>
+            <option value="3.5">3.5</option>
+            <option value="4">4</option>
+        </select>
+
+        <hr>
+
+        <button type="submit">Download Certification PDF</button>
     </form>
 </body>
 

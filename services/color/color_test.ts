@@ -12,10 +12,27 @@ Deno.test('RGB color parsing', () => {
     assertEquals(result, expectedRGB);
 });
 
+Deno.test('RGB color with # parsing', () => {
+    const color = new Color();
+    const expectedRGB = rgb(171 / 255, 205 / 255, 239 / 255);
+
+    const result = color.parseRGB('#ABCDEF');
+
+    assertEquals(result, expectedRGB);
+});
+
 Deno.test('Invalid RGB color parsing', () => {
     const color = new Color();
 
     assertThrows(() => {
         color.parseRGB('BCDEFG');
+    });
+});
+
+Deno.test('Invalid RGB with # color parsing', () => {
+    const color = new Color();
+
+    assertThrows(() => {
+        color.parseRGB('#BCDEFG');
     });
 });
