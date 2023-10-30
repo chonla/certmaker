@@ -5,6 +5,7 @@ import fontkit from 'npm:@pdf-lib/fontkit';
 import { FALLBACK_FONT, PIXEL_PER_INCH } from "../constants/config.ts";
 import { Color } from "../services/color/color.ts";
 import { decode } from "https://deno.land/x/pngs@0.1.1/mod.ts";
+import { BackgroundImage } from "../services/background-image/background-image.ts";
 
 export async function getCert(ctx: Context) {
     const paperA4LandscapeWidthInPixel = 842;
@@ -34,8 +35,7 @@ export async function getCert(ctx: Context) {
     const baseFont = await certDoc.embedFont(fontData);
 
     // Add a page to the PDFDocument and draw some text
-    const templateFile = `${certTemplate}.png`;
-    const backgroundDataBytes = await Deno.readFileSync(templateFile);
+    const backgroundDataBytes = await (new BackgroundImage()).resolve(certTemplate);
     const backgroundImage = await certDoc.embedPng(backgroundDataBytes);
     const { width } = decode(backgroundDataBytes);
     const scale = paperA4LandscapeWidthInPixel / width;
