@@ -19,8 +19,8 @@ export async function getCert(ctx: Context) {
     const certTemplate = ctx.request.url.searchParams.get('template') || fallbackTemplate;
     const fontSizeQuery = ctx.request.url.searchParams.get('fontsize') || `${fallbackFontSize}`;
     const fontColorQuery = ctx.request.url.searchParams.get('fontcolor') || fallbackFontColor;
-    const positionX = ctx.request.url.searchParams.get('x'); // in inch
-    const positionY = ctx.request.url.searchParams.get('y'); // in inch
+    const positionX = ctx.request.url.searchParams.get('x') || '0'; // in inch
+    const positionY = ctx.request.url.searchParams.get('y') || '0'; // in inch
     const marginLeftQuery = ctx.request.url.searchParams.get('marginleft') || `${fallbackMarginLeft}`; // in inch
 
     const fontDiscovery = new FontDiscovery(FALLBACK_FONT);
