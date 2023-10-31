@@ -21,6 +21,24 @@ Deno.test('RGB color with # parsing', () => {
     assertEquals(result, expectedRGB);
 });
 
+Deno.test('RGBA color parsing', () => {
+    const color = new Color();
+    const expectedRGB = rgb(171 / 255, 205 / 255, 239 / 255);
+
+    const result = color.parseRGB('ABCDEF00');
+
+    assertEquals(result, expectedRGB);
+});
+
+Deno.test('RGBA color with # parsing', () => {
+    const color = new Color();
+    const expectedRGB = rgb(171 / 255, 205 / 255, 239 / 255);
+
+    const result = color.parseRGB('#ABCDEF00');
+
+    assertEquals(result, expectedRGB);
+});
+
 Deno.test('Invalid RGB color parsing', () => {
     const color = new Color();
 
@@ -34,5 +52,21 @@ Deno.test('Invalid RGB with # color parsing', () => {
 
     assertThrows(() => {
         color.parseRGB('#BCDEFG');
+    });
+});
+
+Deno.test('Invalid RGBA color parsing', () => {
+    const color = new Color();
+
+    assertThrows(() => {
+        color.parseRGB('BCDEFG00');
+    });
+});
+
+Deno.test('Invalid RGBA with # color parsing', () => {
+    const color = new Color();
+
+    assertThrows(() => {
+        color.parseRGB('#BCDEFG00');
     });
 });

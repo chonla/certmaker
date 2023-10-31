@@ -3,11 +3,11 @@ import { decodeHex } from "https://deno.land/std@0.204.0/encoding/hex.ts";
 
 export class Color {
     parseRGB(rgbColor: string): RGB {
-        if (!/#[0-9a-f]{6}/i.test(rgbColor) && !/[0-9a-f]{6}/i.test(rgbColor)) {
+        if (!/#[0-9a-f]{6}/i.test(rgbColor) && !/[0-9a-f]{6}/i.test(rgbColor) && !/#[0-9a-f]{8}/i.test(rgbColor) && !/[0-9a-f]{8}/i.test(rgbColor)) {
             throw new Error('invalid rgb color');
         }
 
-        if (/#[0-9a-f]{6}/i.test(rgbColor)) {
+        if (/#[0-9a-f]{6}/i.test(rgbColor) || /#[0-9a-f]{8}/i.test(rgbColor)) {
             rgbColor = rgbColor.substring(1);
         }
 
