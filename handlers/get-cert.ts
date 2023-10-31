@@ -19,8 +19,8 @@ export async function getCert(ctx: Context) {
     const certTemplate = ctx.request.url.searchParams.get('template') || fallbackTemplate;
     const fontSizeQuery = ctx.request.url.searchParams.get('fontsize') || `${fallbackFontSize}`;
     const fontColorQuery = ctx.request.url.searchParams.get('fontcolor') || fallbackFontColor;
-    const positionX = ctx.request.url.searchParams.get('x') || '0'; // in inch
-    const positionY = ctx.request.url.searchParams.get('y') || '0'; // in inch
+    const positionX = ctx.request.url.searchParams.get('x'); // in inch
+    const positionY = ctx.request.url.searchParams.get('y'); // in inch
     const marginLeftQuery = ctx.request.url.searchParams.get('marginleft') || `${fallbackMarginLeft}`; // in inch
 
     const fontDiscovery = new FontDiscovery(FALLBACK_FONT);
@@ -54,14 +54,14 @@ export async function getCert(ctx: Context) {
     page.moveTo(0, 0);
     let x;
     let y;
-    if (positionX === null) {
+    if (!positionX) {
         // x is omitted, put it center
         const textWidth = baseFont.widthOfTextAtSize(recipient, fontSize);
         x = Math.round((page.getWidth() - textWidth - marginleft) / 2);
     } else {
         x = (Number.parseFloat(positionX) * PIXEL_PER_INCH);
     }
-    if (positionY === null) {
+    if (!positionY) {
         // y is omitted, put it center
         const textHeight = baseFont.heightAtSize(fontSize);
         y = Math.round((page.getHeight() - textHeight) / 2);
