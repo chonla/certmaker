@@ -19,6 +19,6 @@ export async function getTemplate(ctx: Context) {
     }
 
     ctx.response.headers.set('Content-type', 'image/png');
-    ctx.response.headers.set('Content-disposition', 'attachment; filename=background.png');
+    ctx.response.headers.set('Content-disposition', 'inline; filename=background.png');
     ctx.response.body = templateDataBytes;
 }
