@@ -6,6 +6,6 @@ export class BackgroundImage {
             const imageUint8Array = new Uint8Array(imageDataBinary);
             return imageUint8Array;
         }
-        return await Deno.readFile(`${imageUrl}.png`);
+        return await Deno.readFile(`templates/${imageUrl}.png`);
     }
 }
