@@ -5,6 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cert Maker</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        function getLink() {
+            const formData = new FormData($('form')[0]);
+            const search = new URLSearchParams(formData);
+            const queryParam = search.toString();
+            console.log(queryParam);
+            $('#pdf-link').val(`https://certmaker.deno.dev?${queryParam}`);
+        }
+
+        $(() => {
+            $('form').on('change', getLink);
+        });
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Pacifico&display=swap" rel="stylesheet">
@@ -125,7 +140,7 @@
             line-height: 2em;
             border: 1 px solid #000000;
             background-color: #fff;
-            width: calc(50% - 10px);
+            width: 100%;
             color: #202020;
             padding: 8px;
             cursor: pointer;
@@ -134,6 +149,10 @@
         button[type="submit"] {
             background-color: #4b3a0c;
             color: #f8f8f8;
+        }
+
+        #pdf-link {
+            background-color: cornsilk;
         }
     </style>
 </head>
@@ -237,6 +256,11 @@
             <option value="6.5">6.5</option>
             <option value="7">7</option>
         </select>
+
+        <hr>
+
+        <h2>PDF Link</h2>
+        <input type="text" readonly id="pdf-link">
 
         <hr>
 
