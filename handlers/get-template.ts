@@ -5,8 +5,6 @@ export async function getTemplate(ctx: Context) {
     const templateName = ctx.params?.templateName;
     let templateDataBytes: Uint8Array;
     if (templateName) {
-        templateDataBytes = await Deno.readFile(`templates/empty-cert.png`);
-    } else {
         const isReadableFile = await exists(`templates/${templateName}.png`, {
             isReadable: true,
             isFile: true
@@ -16,6 +14,8 @@ export async function getTemplate(ctx: Context) {
         } else {
             templateDataBytes = await Deno.readFile(`templates/empty-cert.png`);
         }
+    } else {
+        templateDataBytes = await Deno.readFile(`templates/empty-cert.png`);
     }
 
     ctx.response.headers.set('Content-type', 'image/png');
