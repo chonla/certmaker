@@ -27,11 +27,11 @@ https://chonla.github.io/certmaker/
 ### On Deno Deploy
 
 ```
-https://certmaker.deno.dev?recipient=Chonlasith+Jucksriporn&y=4.25&fontsize=0.5&marginleft=3.78&template=playwright-hands-on-cert&fontcolor=ff0000
+https://certmaker.deno.dev?recipient=Chonlasith+Jucksriporn&y=4.25&fontsize=0.5&marginleft=3.78&template=templates/playwright-hands-on-cert&fontcolor=ff0000
 ```
 
 ### On localhost
 
 ```
-http://localhost?recipient=Chonlasith+Jucksriporn&y=4.25&fontsize=0.5&marginleft=3.78&template=playwright-hands-on-cert&fontcolor=ff0000
+http://localhost?recipient=Chonlasith+Jucksriporn&y=4.25&fontsize=0.5&marginleft=3.78&template=templates/playwright-hands-on-cert&fontcolor=ff0000
 ```

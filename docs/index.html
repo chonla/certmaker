@@ -111,16 +111,29 @@
             font-size: 0.8em;
         }
 
+        .buttons {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            column-gap: 10px;
+            justify-content: space-between;
+        }
+
         button {
             border-radius: 4px;
-            font-size: 1.5em;
+            font-size: 1em;
             line-height: 2em;
             border: 1 px solid #000000;
             background-color: #fff;
-            width: 100%;
+            width: calc(50% - 10px);
             color: #202020;
             padding: 8px;
             cursor: pointer;
+        }
+
+        button[type="submit"] {
+            background-color: #4b3a0c;
+            color: #f8f8f8;
         }
     </style>
 </head>
@@ -206,7 +219,7 @@
             <option value="6">6</option>
         </select>
         <label for="y">
-            Top <span class="helper">(inch)</span>
+            Top <span class="helper">(inch from bottom)</span>
         </label>
         <select name="y">
             <option value="">Auto (Center)</option>
@@ -217,11 +230,20 @@
             <option value="3">3</option>
             <option value="3.5">3.5</option>
             <option value="4">4</option>
+            <option value="4.5">4.5</option>
+            <option value="5">5</option>
+            <option value="5.5">5.5</option>
+            <option value="6">6</option>
+            <option value="6.5">6.5</option>
+            <option value="7">7</option>
         </select>
 
         <hr>
 
-        <button type="submit">Download Certification PDF</button>
+        <div class="buttons">
+            <button type="submit">Preview PDF</button>
+            <button type="button" id="getlink">Get Link</button>
+        </div>
     </form>
 </body>
 
