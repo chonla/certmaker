@@ -6,6 +6,7 @@ export class FontDiscovery {
     }
 
     async discover(fontName: string): Promise<ArrayBuffer> {
+        console.log('Discovering font', fontName);
         try {
             const result = await this._discover(fontName);
             return result;
