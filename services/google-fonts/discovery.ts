@@ -9,6 +9,7 @@ export class FontDiscovery {
         console.log('Discovering font', fontName);
         try {
             const result = await this._discover(fontName);
+            console.log('Success!');
             return result;
         } catch (_) {
             console.error(`Specified font is missing [${fontName}], use fallback font [${this._fallbackFontName}]`);
