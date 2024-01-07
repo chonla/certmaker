@@ -14,6 +14,8 @@ export async function getCert(ctx: Context) {
     const fallbackMarginLeft = 0;
     const fallbackFontColor = '000000';
 
+    ctx.request.url.searchParams.forEach((v, k) => console.log(`${k}:${v}`));
+    
     const recipient = ctx.request.url.searchParams.get('recipient') || `Recipient's Name`;
     const font = ctx.request.url.searchParams.get('font');
     const certTemplate = ctx.request.url.searchParams.get('template') || fallbackTemplate;
@@ -28,6 +30,8 @@ export async function getCert(ctx: Context) {
     const fontSize = Number.parseFloat(fontSizeQuery) * PIXEL_PER_INCH;
     const fontColor = (new Color()).parseRGB(fontColorQuery);
     const marginleft = Number.parseFloat(marginLeftQuery) * PIXEL_PER_INCH;
+
+    console.log(font)
 
     // Create a new PDFDocument
     const certDoc = await PDFDocument.create();
