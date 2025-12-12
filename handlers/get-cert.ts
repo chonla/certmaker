@@ -31,7 +31,7 @@ export async function getCert(ctx: Context) {
     const fontColor = (new Color()).parseRGB(fontColorQuery);
     const marginleft = Number.parseFloat(marginLeftQuery) * PIXEL_PER_INCH;
 
-    console.log(font)
+    // console.log(font)
 
     // Create a new PDFDocument
     const certDoc = await PDFDocument.create();
